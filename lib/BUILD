@@ -170,6 +170,8 @@ cc_library(
     'librte_eal/linuxapp/eal/eal_thread.c',
     'librte_eal/linuxapp/eal/eal_timer.c',
     'librte_mempool/rte_mempool.c',
+    # x86
+    'librte_eal/common/arch/x86/rte_cpuflags.c',
   ] + glob([
     'librte_malloc/*.c',
     'librte_ring/*.c',
