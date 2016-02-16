@@ -1,9 +1,6 @@
 licenses(['notice'])
 
 CFLAGS = [
-  # Make sure cpuflags is implicitly included.
-  '-include',
-  'generated_rte_cpuflags.h',
   # Make sure rte_config.h is implicitly included
   '-include',
   'rte_config.h',

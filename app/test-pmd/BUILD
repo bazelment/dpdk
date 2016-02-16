@@ -7,6 +7,11 @@ cc_binary(
     '-include',
     'rte_config.h',
     '-msse4.2',
+    # This is needed because we now get the defines from dpdk, which
+    # enabled AVX2, so that certain code that depends on this
+    # feature(like memcpy) requires the compiler to optimize at
+    # certain level to work correctly.
+    '-march=native',
   ],
   srcs = glob([
     '*.h',
