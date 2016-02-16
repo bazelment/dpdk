@@ -339,3 +339,22 @@ cc_library(
     'librte_net',
   ],
 )
+
+cc_library(
+  name = 'timer',
+  visibility = ["//visibility:public"],
+  copts = CFLAGS,
+  includes = [
+    'librte_timer',
+  ],
+  hdrs = glob([
+    'librte_timer/*.h',
+  ]),
+  srcs = glob([
+    'librte_timer/*.c',
+  ]),
+  deps = [
+    ':core-includes',
+    ':eal',
+  ],
+)
