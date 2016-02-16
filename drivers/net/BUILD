@@ -39,9 +39,9 @@ cc_library(
   includes = [
     'bonding',
   ],
-  hdrs = [
-    'bonding/rte_eth_bond.h',
-  ],
+  hdrs = glob([
+    'bonding/*.h',
+  ]),
   srcs = [
   ] + glob([
     'bonding/*.c',
@@ -63,6 +63,11 @@ cc_library(
   includes = [
     'e1000',
   ],
+  hdrs = glob([
+    'e1000/*.h',
+    'e1000/base/*.h',
+    'e1000/e1000/*.h',
+  ]),
   srcs = [
   ] + glob([
     'e1000/base/*.c',
@@ -94,7 +99,16 @@ cc_library(
     '-DPF_DRIVER',
     '-DVF_DRIVER',
     '-DINTEGRATED_VF',
+    '-DX722_SUPPORT',
+    '-DX722_A0_SUPPORT',
   ],
+  includes = [
+    'i40e',
+  ],
+  hdrs = glob([
+    'i40e/base/*.h',
+    'i40e/*.h',
+  ]),
   srcs = glob([
     'i40e/base/*.c',
     'i40e/*.c',
@@ -130,7 +144,8 @@ cc_library(
     'ixgbe',
   ],
   hdrs = glob([
-    'ixgbe/*.h'
+    'ixgbe/*.h',
+    'ixgbe/base/*.h',
   ]),
   srcs = glob([
     'ixgbe/base/*.c',
@@ -152,6 +167,9 @@ cc_library(
   includes = [
     'null',
   ],
+  hdrs = glob([
+    'null/*.h',
+  ]),
   srcs = glob([
     'null/*.c',
   ]),
@@ -168,6 +186,9 @@ cc_library(
   includes = [
     'ring',
   ],
+  hdrs = glob([
+    'ring/*.h',
+  ]),
   srcs = glob([
     'ring/*.c',
   ]),
@@ -186,6 +207,9 @@ cc_library(
   includes = [
     'virtio',
   ],
+  hdrs = glob([
+    'virtio/*.h',
+  ]),
   srcs = glob([
     'virtio/*.c',
   ]),

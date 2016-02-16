@@ -22,6 +22,19 @@ cc_library(
     'librte_net',
     'librte_ring',
   ],
+  hdrs = glob([
+    'librte_eal/common/*.h',
+    'librte_eal/common/include/*.h',
+    'librte_eal/common/include/generic/*.h',
+    'librte_eal/common/include/arch/x86/*.h',
+    'librte_eal/linuxapp/eal/*.h',
+    'librte_eal/linuxapp/eal/include/*.h',
+    'librte_eal/linuxapp/eal/include/exec-env/*.h',
+    'librte_malloc/*.h',
+    'librte_mempool/*.h',
+    'librte_net/*.h',
+    'librte_ring/*.h',
+  ]),
   deps = [
     '//third_party/dpdk:build_config',
   ]
@@ -32,6 +45,9 @@ cc_library(
   includes = [
     'librte_compat'
   ],
+  hdrs = glob([
+    'librte_compat/*.h',
+  ]),
 )
 
 cc_library(
@@ -46,6 +62,8 @@ cc_library(
   ]),
   srcs = glob([
     'librte_acl/*.c',
+  ], exclude=[
+    'librte_acl/acl_run_neon.c',  # for ARM
   ]),
   deps = [
     ':core-includes',
@@ -202,12 +220,37 @@ cc_library(
 )
 
 cc_library(
+  name = 'ip_frag',
+  visibility = ["//visibility:public"],
+  copts = CFLAGS,
+  includes = [
+    'librte_ip_frag',
+  ],
+  hdrs = glob([
+    'librte_ip_frag/*.h',
+  ]),
+  srcs = glob([
+    'librte_ip_frag/*.c',
+  ]),
+  deps = [
+    ':core-includes',
+    ':eal',
+    ':hash',
+    ':malloc',
+    ':mbuf',
+  ],
+)
+
+cc_library(
   name = 'kni',
   visibility = ["//visibility:public"],
   copts = CFLAGS,
   includes = [
     'librte_kni',
   ],
+  hdrs = glob([
+    'librte_kni/*.h',
+  ]),
   srcs = glob([
     'librte_kni/*.c',
   ]),
@@ -225,6 +268,10 @@ cc_library(
   includes = [
     'librte_kvargs',
   ],
+  hdrs = glob([
+    'librte_kvargs/*.h',
+  ]),
+
   srcs = [
   ] + glob([
     'librte_kvargs/*.c',
@@ -258,7 +305,6 @@ cc_library(
   visibility = ["//visibility:public"],
   copts = CFLAGS,
   includes = [
-
   ],
   hdrs = glob([
   ]),
@@ -275,6 +321,9 @@ cc_library(
   copts = CFLAGS,
   includes = [
     'librte_mbuf',
+  ],
+  hdrs = [
+    'librte_mbuf/rte_mbuf.h',
   ],
   srcs = [
     'librte_mbuf/rte_mbuf.c',
