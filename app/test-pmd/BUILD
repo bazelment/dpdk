@@ -8,8 +8,8 @@ cc_binary(
     'rte_config.h',
     '-msse4.2',
   ],
-  srcs = [
-  ] + glob([
+  srcs = glob([
+    '*.h',
     '*.c',
   ]),
   deps = [

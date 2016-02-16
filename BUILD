@@ -30,6 +30,7 @@ cc_library(
     '//third_party/dpdk/lib:cmdline',
     '//third_party/dpdk/lib:eal',
     '//third_party/dpdk/lib:ether',
+    '//third_party/dpdk/lib:ip_frag',
     '//third_party/dpdk/lib:mbuf',
     '//third_party/dpdk/lib:net',
   ],
