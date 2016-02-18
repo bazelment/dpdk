@@ -72,6 +72,9 @@
 #include <rte_memory.h>
 #include <rte_branch_prediction.h>
 #include <rte_ring.h>
+#ifdef ADDRESS_SANITIZER
+#include <sanitizer/asan_interface.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -755,6 +758,14 @@ static inline void __attribute__((always_inline))
 __mempool_put_bulk(struct rte_mempool *mp, void * const *obj_table,
 		    unsigned n, int is_mp)
 {
+#ifdef ADDRESS_SANITIZER
+        for (uint32_t index = 0; index < n; ++index) {
+                ASAN_POISON_MEMORY_REGION(
+                        obj_table[index],
+                        mp->elt_size + mp->header_size + mp->trailer_size);
+        }
+#endif
+
 #if RTE_MEMPOOL_CACHE_MAX_SIZE > 0
 	struct rte_mempool_cache *cache;
 	uint32_t index;
@@ -982,8 +993,14 @@ __mempool_get_bulk(struct rte_mempool *mp, void **obj_table,
 	}
 
 	/* Now fill in the response ... */
-	for (index = 0, len = cache->len - 1; index < n; ++index, len--, obj_table++)
+	for (index = 0, len = cache->len - 1; index < n; ++index, len--, obj_table++) {
 		*obj_table = cache_objs[len];
+#ifdef ADDRESS_SANITIZER
+                ASAN_UNPOISON_MEMORY_REGION(
+                    *obj_table,
+                    mp->elt_size + mp->header_size + mp->trailer_size);
+#endif
+        }
 
 	cache->len -= n;
 
@@ -1004,6 +1021,16 @@ ring_dequeue:
 		__MEMPOOL_STAT_ADD(mp, get_fail, n);
 	else
 		__MEMPOOL_STAT_ADD(mp, get_success, n);
+#ifdef ADDRESS_SANITIZER
+        if (ret >= 0) {
+                for (uint32_t index = 0; index < n; ++index) {
+                        ASAN_UNPOISON_MEMORY_REGION(
+                                obj_table[index],
+                                mp->elt_size + mp->header_size +
+                                mp->trailer_size);
+                }
+        }
+#endif
 
 	return ret;
 }
