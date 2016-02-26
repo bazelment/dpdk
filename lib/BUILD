@@ -1,11 +1,6 @@
 licenses(['notice'])
 
-CFLAGS = [
-  # Make sure rte_config.h is implicitly included
-  '-include',
-  'rte_config.h',
-  '-march=native',
-]
+load('//third_party/dpdk:dpdk_cpu.bzl', 'DPDK_CONFIG_CFLAGS')
 
 cc_library(
   name = 'core-includes',
@@ -50,7 +45,7 @@ cc_library(
 cc_library(
   name = 'acl',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_acl',
   ],
@@ -70,7 +65,7 @@ cc_library(
 cc_library(
   name = 'cfgfile',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_cfgfile',
   ],
@@ -89,7 +84,7 @@ cc_library(
 cc_library(
   name = 'cmdline',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-unused-result',
     '-D_GNU_SOURCE',
   ],
@@ -111,7 +106,7 @@ cc_library(
 cc_library(
   name = 'eal',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-D_GNU_SOURCE',
     '-Wno-unused-result',
   ],
@@ -181,7 +176,7 @@ cc_library(
 cc_library(
   name = 'ether',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_ether',
   ],
@@ -200,7 +195,7 @@ cc_library(
 cc_library(
   name = 'hash',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_hash',
   ],
@@ -221,7 +216,7 @@ cc_library(
 cc_library(
   name = 'ip_frag',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_ip_frag',
   ],
@@ -243,7 +238,7 @@ cc_library(
 cc_library(
   name = 'kni',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_kni',
   ],
@@ -263,7 +258,7 @@ cc_library(
 cc_library(
   name = 'kvargs',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_kvargs',
   ],
@@ -283,7 +278,7 @@ cc_library(
 cc_library(
   name = 'lpm',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_lpm',
   ],
@@ -302,7 +297,7 @@ cc_library(
 cc_library(
   name = 'malloc',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
   ],
   hdrs = glob([
@@ -317,7 +312,7 @@ cc_library(
 cc_library(
   name = 'mbuf',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_mbuf',
   ],
@@ -343,7 +338,7 @@ cc_library(
 cc_library(
   name = 'timer',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'librte_timer',
   ],

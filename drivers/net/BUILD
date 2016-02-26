@@ -1,16 +1,11 @@
 licenses(['notice'])
 
-CFLAGS = [
-  # Make sure rte_config.h is implicitly included
-  '-include',
-  'rte_config.h',
-  '-march=native',
-]
+load('//third_party/dpdk:dpdk_cpu.bzl', 'DPDK_CONFIG_CFLAGS')
 
 cc_library(
   name = 'af_packet',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'af_packet',
   ],
@@ -29,7 +24,7 @@ cc_library(
 cc_library(
   name = 'bonding',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
     '-Wno-unused-variable',
   ],
@@ -53,7 +48,7 @@ cc_library(
 cc_library(
   name = 'e1000',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
     '-Wno-unused-variable',
   ],
@@ -78,7 +73,7 @@ cc_library(
 cc_library(
   name = 'em',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
   ],
   srcs = glob([
@@ -92,12 +87,13 @@ cc_library(
 cc_library(
   name = 'i40e',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-DPF_DRIVER',
     '-DVF_DRIVER',
     '-DINTEGRATED_VF',
     '-DX722_SUPPORT',
     '-DX722_A0_SUPPORT',
+    '-Wno-unused-variable',
   ],
   includes = [
     'i40e',
@@ -118,7 +114,7 @@ cc_library(
 cc_library(
   name = 'igb',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
   ],
   srcs = glob([
@@ -132,7 +128,7 @@ cc_library(
 cc_library(
   name = 'ixgbe',
   visibility = ["//visibility:public"],
-  copts = CFLAGS + [
+  copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-unused-result',
     '-Wno-unused-value',
     '-msse4.2',
@@ -160,7 +156,7 @@ cc_library(
 cc_library(
   name = 'null',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'null',
   ],
@@ -179,7 +175,7 @@ cc_library(
 cc_library(
   name = 'ring',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'ring',
   ],
@@ -200,7 +196,7 @@ cc_library(
 cc_library(
   name = 'virtio',
   visibility = ["//visibility:public"],
-  copts = CFLAGS,
+  copts = DPDK_CONFIG_CFLAGS,
   includes = [
     'virtio',
   ],
