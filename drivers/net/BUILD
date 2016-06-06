@@ -4,6 +4,7 @@ load('//third_party/dpdk:dpdk_cpu.bzl', 'DPDK_CONFIG_CFLAGS')
 
 cc_library(
   name = 'af_packet',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS,
   includes = [
@@ -23,6 +24,7 @@ cc_library(
 
 cc_library(
   name = 'bonding',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
@@ -47,6 +49,7 @@ cc_library(
 # Intel cards
 cc_library(
   name = 'e1000',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
@@ -72,6 +75,7 @@ cc_library(
 
 cc_library(
   name = 'em',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
@@ -86,7 +90,9 @@ cc_library(
 
 cc_library(
   name = 'i40e',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
+  nocopts = '-Werror',
   copts = DPDK_CONFIG_CFLAGS + [
     '-DPF_DRIVER',
     '-DVF_DRIVER',
@@ -113,6 +119,7 @@ cc_library(
 
 cc_library(
   name = 'igb',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-uninitialized',
@@ -127,7 +134,9 @@ cc_library(
 
 cc_library(
   name = 'ixgbe',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
+  nocopts = '-Werror',
   copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-unused-result',
     '-Wno-unused-value',
@@ -155,6 +164,7 @@ cc_library(
 # For testing
 cc_library(
   name = 'null',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS,
   includes = [
@@ -174,6 +184,7 @@ cc_library(
 
 cc_library(
   name = 'ring',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS,
   includes = [
@@ -195,6 +206,7 @@ cc_library(
 
 cc_library(
   name = 'virtio',
+  alwayslink = 1,
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS,
   includes = [
