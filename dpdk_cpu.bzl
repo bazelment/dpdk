@@ -25,7 +25,8 @@ RTE_CPU_DEFINES = RTE_ENABLED_CPU_FEATURES + [
 
 DPDK_X64_CFLAGS = ['-D' + f for f in RTE_CPU_DEFINES] + [
   # Compiling rte_memcpy.h requires CPU specific optimizations
-  '-march=native',
+  '-msse4.2',
+  '-mavx2',
 ]
 
 DPDK_CONFIG_CFLAGS = [
