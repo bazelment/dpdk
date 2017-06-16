@@ -43,6 +43,7 @@ cc_library(
   deps = [
     '//third_party/dpdk:dpdk',
     '//third_party/dpdk/lib:kvargs',
+    '//third_party/dpdk/lib:sched',
   ],
 )
 
@@ -111,9 +112,13 @@ cc_library(
   srcs = glob([
     'i40e/base/*.c',
     'i40e/*.c',
+  ], exclude=[
+    'i40e/i40e_rxtx_vec_neon.c',
+    'i40e/i40e_rxtx_vec_altivec.c',
   ]),
   deps = [
     '//third_party/dpdk:dpdk',
+    '//third_party/dpdk/lib:kvargs',
   ],
 )
 
@@ -155,6 +160,7 @@ cc_library(
   ], exclude=[
     'ixgbe/ixgbe_bypass.c',
     'ixgbe/ixgbe_82599_bypass.c',
+    'ixgbe/ixgbe_rxtx_vec_neon.c',  # ARM
   ]),
   deps = [
     '//third_party/dpdk:dpdk',
@@ -217,6 +223,8 @@ cc_library(
   ]),
   srcs = glob([
     'virtio/*.c',
+  ], exclude=[
+    'virtio/virtio_rxtx_simple_neon.c',
   ]),
   deps = [
     '//third_party/dpdk:dpdk',

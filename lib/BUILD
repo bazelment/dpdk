@@ -3,6 +3,26 @@ licenses(['notice'])
 load('//third_party/dpdk:dpdk_cpu.bzl', 'DPDK_CONFIG_CFLAGS')
 
 cc_library(
+  name = 'bitratestats',
+  visibility = ["//visibility:public"],
+  copts = DPDK_CONFIG_CFLAGS,
+  includes = [
+    'librte_bitratestats',
+  ],
+  hdrs = [
+    'librte_bitratestats/rte_bitrate.h',
+  ],
+  srcs = [
+    'librte_bitratestats/rte_bitrate.c',
+  ],
+  deps = [
+    ':eal',
+    ':ether',
+    ':metrics',
+  ],
+)
+
+cc_library(
   name = 'core-includes',
   includes = [
     'librte_eal/common',
@@ -56,6 +76,7 @@ cc_library(
     'librte_acl/*.c',
   ], exclude=[
     'librte_acl/acl_run_neon.c',  # for ARM
+    'librte_acl/acl_run_altivec.c',  # for PPC
   ]),
   deps = [
     ':core-includes',
@@ -126,6 +147,7 @@ cc_library(
     'librte_ring/*.h',
   ]),
   srcs = [
+    'librte_eal/common/eal_common_bus.c',
     'librte_eal/common/eal_common_cpuflags.c',
     'librte_eal/common/eal_common_dev.c',
     'librte_eal/common/eal_common_devargs.c',
@@ -143,25 +165,29 @@ cc_library(
     'librte_eal/common/eal_common_tailqs.c',
     'librte_eal/common/eal_common_timer.c',
     'librte_eal/common/eal_common_thread.c',
+    'librte_eal/common/eal_common_vdev.c',
     'librte_eal/common/malloc_elem.c',
     'librte_eal/common/malloc_heap.c',
     'librte_eal/common/rte_malloc.c',
+    'librte_eal/common/rte_keepalive.c',
     'librte_eal/linuxapp/eal/eal.c',
     'librte_eal/linuxapp/eal/eal_alarm.c',
     'librte_eal/linuxapp/eal/eal_debug.c',
     'librte_eal/linuxapp/eal/eal_hugepage_info.c',
     'librte_eal/linuxapp/eal/eal_interrupts.c',
-    'librte_eal/linuxapp/eal/eal_ivshmem.c',
+    #'librte_eal/linuxapp/eal/eal_ivshmem.c',
     'librte_eal/linuxapp/eal/eal_lcore.c',
     'librte_eal/linuxapp/eal/eal_log.c',
     'librte_eal/linuxapp/eal/eal_memory.c',
     'librte_eal/linuxapp/eal/eal_pci.c',
     'librte_eal/linuxapp/eal/eal_pci_uio.c',
     'librte_eal/linuxapp/eal/eal_pci_vfio.c',
-    'librte_eal/linuxapp/eal/eal_pci_vfio_mp_sync.c',
+    'librte_eal/linuxapp/eal/eal_vfio.c',
+    'librte_eal/linuxapp/eal/eal_vfio_mp_sync.c',
     'librte_eal/linuxapp/eal/eal_thread.c',
     'librte_eal/linuxapp/eal/eal_timer.c',
     'librte_mempool/rte_mempool.c',
+    'librte_mempool/rte_mempool_ops.c',
     # x86
     'librte_eal/common/arch/x86/rte_cpuflags.c',
   ] + glob([
@@ -185,6 +211,7 @@ cc_library(
   ]),
   srcs = [
     'librte_ether/rte_ethdev.c',
+    'librte_ether/rte_flow.c',
   ],
   deps = [
     ':mbuf',
@@ -276,6 +303,27 @@ cc_library(
 )
 
 cc_library(
+  name = 'latencystats',
+  visibility = ["//visibility:public"],
+  copts = DPDK_CONFIG_CFLAGS,
+  includes = [
+    'librte_latencystats',
+  ],
+  hdrs = [
+    'librte_latencystats/rte_latencystats.h',
+  ],
+  srcs = [
+    'librte_latencystats/rte_latencystats.c',
+  ],
+  deps = [
+    ':eal',
+    ':ether',
+    ':mbuf',
+    ':metrics',
+  ],
+)
+
+cc_library(
   name = 'lpm',
   visibility = ["//visibility:public"],
   copts = DPDK_CONFIG_CFLAGS,
@@ -289,6 +337,7 @@ cc_library(
     'librte_lpm/*.c',
   ]),
   deps = [
+    ':compat',
     ':core-includes',
     ':eal',
     ':malloc',
@@ -321,6 +370,43 @@ cc_library(
   ],
   srcs = [
     'librte_mbuf/rte_mbuf.c',
+    'librte_mbuf/rte_mbuf_ptype.c',
+  ],
+  deps = [
+    ':eal',
+  ],
+)
+
+cc_library(
+  name = 'meter',
+  visibility = ["//visibility:public"],
+  copts = DPDK_CONFIG_CFLAGS,
+  includes = [
+    'librte_meter',
+  ],
+  hdrs = [
+    'librte_meter/rte_meter.h',
+  ],
+  srcs = [
+    'librte_meter/rte_meter.c',
+  ],
+  deps = [
+    ':eal',
+  ],
+)
+
+cc_library(
+  name = 'metrics',
+  visibility = ["//visibility:public"],
+  copts = DPDK_CONFIG_CFLAGS,
+  includes = [
+    'librte_metrics',
+  ],
+  hdrs = [
+    'librte_metrics/rte_metrics.h',
+  ],
+  srcs = [
+    'librte_metrics/rte_metrics.c',
   ],
   deps = [
     ':eal',
@@ -332,6 +418,53 @@ cc_library(
   visibility = ["//visibility:public"],
   includes = [
     'librte_net',
+  ],
+  srcs = [
+    'librte_net/rte_net.c',
+  ],
+  deps = [
+    ':mbuf',
+  ]
+)
+
+cc_library(
+  name = 'pdump',
+  visibility = ["//visibility:public"],
+  copts = DPDK_CONFIG_CFLAGS,
+  includes = [
+    'librte_pdump',
+  ],
+  hdrs = [
+    'librte_pdump/rte_pdump.h',
+  ],
+  srcs = [
+    'librte_pdump/rte_pdump.c',
+  ],
+  deps = [
+    ':eal',
+    ':ether',
+    ':mbuf',
+  ],
+)
+
+cc_library(
+  name = 'sched',
+  copts = DPDK_CONFIG_CFLAGS,
+  visibility = ["//visibility:public"],
+  includes = [
+    'librte_sched',
+  ],
+  hdrs = glob([
+    'librte_sched/*.h',
+  ]),
+  srcs = glob([
+    'librte_sched/*.c',
+  ]),
+  deps = [
+    ':core-includes',
+    ':eal',
+    ':mbuf',
+    ':meter',
   ],
 )
 
