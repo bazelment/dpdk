@@ -16,7 +16,7 @@ cc_binary(
     'test.c',
     'process.h',
     'test_mp_secondary.c',
-    'test_pci.c',
+    #'test_pci.c',
     # all test cases
     'test_pmd_perf.c',
     'test_acl.h',
