@@ -20,6 +20,10 @@ cc_binary(
   deps = [
     '//third_party/dpdk:dpdk',
     '//third_party/dpdk:intel',
+    '//third_party/dpdk/lib:bitratestats',
+    '//third_party/dpdk/lib:pdump',
+    '//third_party/dpdk/lib:latencystats',
+    '//third_party/dpdk/lib:metrics',
     '//third_party/dpdk/drivers/net:bonding',
   ],
 )
