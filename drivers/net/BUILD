@@ -93,7 +93,6 @@ cc_library(
   name = 'i40e',
   alwayslink = 1,
   visibility = ["//visibility:public"],
-  nocopts = '-Werror',
   copts = DPDK_CONFIG_CFLAGS + [
     '-DPF_DRIVER',
     '-DVF_DRIVER',
@@ -141,7 +140,6 @@ cc_library(
   name = 'ixgbe',
   alwayslink = 1,
   visibility = ["//visibility:public"],
-  nocopts = '-Werror',
   copts = DPDK_CONFIG_CFLAGS + [
     '-Wno-unused-result',
     '-Wno-unused-value',

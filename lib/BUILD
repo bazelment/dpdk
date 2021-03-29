@@ -367,6 +367,7 @@ cc_library(
   ],
   hdrs = [
     'librte_mbuf/rte_mbuf.h',
+    'librte_mbuf/rte_mbuf_ptype.h',
   ],
   srcs = [
     'librte_mbuf/rte_mbuf.c',
